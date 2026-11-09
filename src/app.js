@@ -9,6 +9,8 @@ app.use(express.json());
 
 // Página de pruebas en http://localhost:3000
 app.use(express.static(path.join(__dirname, '..', 'public')));
+// Flujo nuevo, aislado de la calculadora anterior.
+app.use('/api/propuesta', require('../propuesta/app'));
 
 app.get('/api/estado', (req, res) => {
   res.json({ status: 'ok' });

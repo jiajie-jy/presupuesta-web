@@ -3,17 +3,18 @@
 API REST (Node.js + Express) que valida las características de un proyecto web y devuelve un presupuesto desglosado. Los precios y el cálculo son siempre del servidor.
 
 ## Requisitos
-- Node.js 18 o superior
+- Node.js 20.9 o superior
 
 ## Instalación y ejecución
 ```bash
 npm install
+npm install --prefix frontend/presupuesta-mi-web
 npm start
 ```
-El servidor escucha en el **puerto 3000** (`http://localhost:3000`). Se puede cambiar con la variable `PORT` (`PORT=4000 npm start`).
+La interfaz Next.js escucha en `http://localhost:3000` y la API Express en el puerto 3001. Usa `npm start` para arrancar ambas. El puerto de la API se cambia con `API_PORT`.
 
 ## Página de pruebas
-Con el servidor arrancado, abre **http://localhost:3000** en el navegador. Desde ahí puedes probar `GET /api/estado`, `GET /api/tarifas`, calcular un presupuesto con un formulario, enviar JSON a mano (para probar tipos incorrectos como `"false"`) y ejecutar los 9 casos de la actividad, que se rellenan solos con el resultado obtenido.
+Con la aplicación arrancada, abre **http://localhost:3000**. La nueva interfaz está en `frontend/presupuesta-mi-web/app/page.tsx`; las llamadas `/api/*` pasan desde Next a Express en el puerto 3001. La calculadora anterior sigue disponible directamente en el servidor Express.
 
 ## Estructura
 ```
@@ -58,6 +59,9 @@ curl -X POST http://localhost:3000/api/presupuesto \
 
 ## Pruebas
 Automáticas: `npm test` (con la API no hace falta tenerla arrancada).
+
+## Nueva propuesta asistida
+El flujo de propuesta es la pantalla inicial de Next.js en `http://localhost:3000`. La interfaz está en `frontend/presupuesta-mi-web/app/page.tsx`; las rutas `POST /api/propuesta/analizar`, `/presupuesto` y `/pdf` se reenvían a Express. Para usar OpenAI, copia `propuesta/.env.example` a `.env` en la raíz y configura `OPENAI_API_KEY`. No añadas una clave real al repositorio.
 
 Tabla de pruebas (en los casos inválidos el resto de campos son correctos):
 
